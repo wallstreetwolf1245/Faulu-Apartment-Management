@@ -1,0 +1,490 @@
+/* ============================================================================
+   ANIMATIONS & TRANSITIONS UTILITY
+   Keyframes, animation utilities, and interaction effects
+   ============================================================================ */
+
+/* ========================================================================
+   KEYFRAME ANIMATIONS
+   ======================================================================== */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale in animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scale out animation */
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Spin animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Modal backdrop fade in */
+@keyframes modalBackdropFadeIn {
+  from {
+    backdrop-filter: blur(0px);
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Modal content zoom in */
+@keyframes modalContentZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ========================================================================
+   UTILITY ANIMATION CLASSES
+   ======================================================================== */
+
+/* Fade animations */
+.animate-fade-in {
+  animation: fadeIn var(--transition-base) var(--ease-out);
+}
+
+.animate-fade-out {
+  animation: fadeOut var(--transition-base) var(--ease-in);
+}
+
+/* Slide animations */
+.animate-slide-down {
+  animation: slideDown var(--transition-base) var(--ease-out);
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-base) var(--ease-out);
+}
+
+/* Scale animations */
+.animate-scale-in {
+  animation: scaleIn var(--transition-base) var(--ease-out);
+}
+
+.animate-scale-out {
+  animation: scaleOut var(--transition-base) var(--ease-in);
+}
+
+/* Bounce animation */
+.animate-bounce {
+  animation: bounce var(--transition-slow) infinite;
+}
+
+/* Pulse animation */
+.animate-pulse {
+  animation: pulse var(--transition-slow) infinite;
+}
+
+/* Spin animation */
+.animate-spin {
+  animation: spin 0.6s linear infinite;
+}
+
+/* ========================================================================
+   MODAL ANIMATIONS
+   ======================================================================== */
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: modalBackdropFadeIn var(--transition-base) var(--ease-out);
+  z-index: var(--z-modal-backdrop);
+}
+
+.modal-backdrop.fade-out {
+  animation: fadeOut var(--transition-base) var(--ease-in);
+}
+
+/* Modal content */
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-height: 90vh;
+  max-width: 600px;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2xl);
+  animation: modalContentZoomIn var(--transition-base) var(--ease-out);
+  z-index: var(--z-modal);
+  overflow-y: auto;
+}
+
+.modal-content.fade-out {
+  animation: scaleOut var(--transition-fast) var(--ease-in);
+}
+
+/* ========================================================================
+   DROPDOWN ANIMATIONS
+   ======================================================================== */
+
+/* Dropdown toggle */
+.dropdown-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  min-width: 160px;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  animation: slideDown var(--transition-fast) var(--ease-out);
+  z-index: var(--z-dropdown);
+}
+
+.dropdown-menu.collapse {
+  animation: slideUp var(--transition-fast) var(--ease-in);
+}
+
+.dropdown-menu-item {
+  display: block;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-base);
+}
+
+.dropdown-menu-item:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-primary);
+}
+
+.dropdown-menu-item:first-child {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.dropdown-menu-item:last-child {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+/* ========================================================================
+   FORM STATE ANIMATIONS
+   ======================================================================== */
+
+/* Input focus animation */
+input:focus,
+textarea:focus,
+select:focus {
+  animation: scaleIn 150ms var(--ease-out);
+}
+
+/* Form error shake animation */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.form-error-shake {
+  animation: shake 200ms var(--ease-in-out);
+}
+
+/* ========================================================================
+   LOADING STATE ANIMATIONS
+   ======================================================================== */
+
+/* Skeleton loading animation */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 0%,
+    var(--color-bg-tertiary) 50%,
+    var(--color-bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Loading spinner */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--color-border-light);
+  border-top-color: var(--color-blue-700);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Loading bar */
+.progress-bar {
+  height: 4px;
+  background-color: var(--color-border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-blue-700);
+  border-radius: var(--radius-full);
+  animation: pulse var(--transition-slow) infinite;
+}
+
+/* ========================================================================
+   NOTIFICATION/TOAST ANIMATIONS
+   ======================================================================== */
+
+/* Toast slide in from right */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Toast slide out to right */
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+}
+
+.toast {
+  animation: toastSlideIn var(--transition-base) var(--ease-out);
+}
+
+.toast.fade-out {
+  animation: toastSlideOut var(--transition-fast) var(--ease-in);
+}
+
+/* ========================================================================
+   TRANSITION UTILITIES
+   ======================================================================== */
+
+/* Fast transitions */
+.transition-fast {
+  transition: all var(--transition-fast);
+}
+
+/* Base transitions */
+.transition-base {
+  transition: all var(--transition-base);
+}
+
+/* Slow transitions */
+.transition-slow {
+  transition: all var(--transition-slow);
+}
+
+/* Color transitions */
+.transition-colors {
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Transform transitions */
+.transition-transform {
+  transition: transform var(--transition-fast);
+}
+
+/* Shadow transitions */
+.transition-shadow {
+  transition: box-shadow var(--transition-fast);
+}
+
+/* ========================================================================
+   INTERACTIVE ELEMENT ANIMATIONS
+   ======================================================================== */
+
+/* Button active ripple effect */
+@keyframes buttonRipple {
+  from {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Link underline animation */
+.link-underline-animate {
+  position: relative;
+  text-decoration: none;
+  color: var(--color-blue-700);
+}
+
+.link-underline-animate::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-blue-700);
+  transition: width var(--transition-fast) var(--ease-out);
+}
+
+.link-underline-animate:hover::after {
+  width: 100%;
+}
+
+/* ========================================================================
+   DISABLED & REDUCED MOTION SUPPORT
+   ======================================================================== */
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================================================
+   RESPONSIVE ANIMATIONS
+   ======================================================================== */
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .dropdown-menu {
+    min-width: 140px;
+  }
+
+  .toast {
+    width: 90%;
+    right: 5%;
+  }
+}

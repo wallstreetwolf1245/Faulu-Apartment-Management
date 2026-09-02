@@ -1,0 +1,58 @@
+/* Legacy CSS variables maintained for backward compatibility */
+:root {
+  --text: var(--color-text-secondary);
+  --text-h: var(--color-text-primary);
+  --bg: var(--color-bg-primary);
+  --border: var(--color-border-default);
+  --code-bg: var(--color-bg-tertiary);
+  --accent: var(--color-primary);
+  --accent-bg: var(--color-primary-bg);
+  --accent-border: rgba(131, 186, 219, 0.5);
+  --shadow: var(--shadow-lg);
+
+  --sans: var(--font-sans);
+  --heading: var(--font-sans);
+  --mono: var(--font-mono);
+
+  font: var(--font-size-base) / var(--line-height-normal) var(--sans);
+  letter-spacing: var(--letter-spacing-normal);
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: var(--color-text-secondary);
+    --text-h: var(--color-text-primary);
+    --bg: var(--color-bg-primary);
+    --border: var(--color-border-default);
+    --code-bg: var(--color-bg-tertiary);
+    --accent: var(--color-primary);
+    --accent-bg: var(--color-primary-bg);
+    --accent-border: rgba(0, 102, 255, 0.5);
+    --shadow: var(--shadow-lg);
+  }
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}

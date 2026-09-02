@@ -1,0 +1,246 @@
+/* ============================================================================
+   FAULU DESIGN SYSTEM - CSS VARIABLES
+   Modern SaaS Design Tokens (Stripe/Linear/Notion inspired)
+   ============================================================================ */
+
+:root {
+  /* COLOR PALETTE - Primary (Blue Gradient) */
+  --color-brand-50: #f0f7ff;
+  --color-brand-100: #e0effe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
+  --color-brand-900: #0c3d66;
+
+  /* COLOR PALETTE - Faulu Blue (Professional gradient) */
+  --color-blue-50: #e6f1f7;
+  --color-blue-100: #cde3f0;
+  --color-blue-200: #b4d5e9;
+  --color-blue-300: #9cc8e2;
+  --color-blue-400: #83badb;
+  --color-blue-500: #6aadce;
+  --color-blue-600: #5a9cb8;
+  --color-blue-700: #4a8ba2;
+  --color-blue-800: #3a7a8c;
+  --color-blue-900: #2a6976;
+  
+  /* Primary accent (main brand color) - Using Faulu Blue */
+  --color-primary: #83badb;
+  --color-primary-hover: #6aadce;
+  --color-primary-light: #e6f1f7;
+  --color-primary-bg: rgba(131, 186, 219, 0.1);
+
+  /* COLOR PALETTE - Neutrals (Gray scale) */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+
+  /* COLOR PALETTE - Status Colors */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+
+  /* TEXT COLORS */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+  --color-text-disabled: #d1d5db;
+
+  /* BACKGROUND COLORS */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* BORDER COLORS */
+  --color-border-light: #f3f4f6;
+  --color-border-default: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  /* ========================================================================
+     SPACING SCALE (4px base unit)
+     ======================================================================== */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ========================================================================
+     TYPOGRAPHY
+     ======================================================================== */
+  
+  /* Font families */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Font sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-4xl: 40px;
+  --font-size-5xl: 48px;
+
+  /* Font weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Letter spacing */
+  --letter-spacing-tighter: -0.02em;
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ========================================================================
+     SHADOWS
+     ======================================================================== */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+
+  /* Focus shadow (accessibility) */
+  --shadow-focus: 0 0 0 3px rgba(0, 102, 255, 0.1);
+
+  /* ========================================================================
+     BORDER RADIUS
+     ======================================================================== */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-base: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ========================================================================
+     TRANSITIONS & ANIMATIONS
+     ======================================================================== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Easing functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ========================================================================
+     Z-INDEX SCALE
+     ======================================================================== */
+  --z-hide: -1;
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+
+  /* ========================================================================
+     BREAKPOINTS
+     ======================================================================== */
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ========================================================================
+     COMPONENT SPACING
+     ======================================================================== */
+  --component-padding-xs: var(--space-2);
+  --component-padding-sm: var(--space-3);
+  --component-padding-base: var(--space-4);
+  --component-padding-md: var(--space-5);
+  --component-padding-lg: var(--space-6);
+  --component-padding-xl: var(--space-8);
+
+  /* ========================================================================
+     LAYOUT
+     ======================================================================== */
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 80px;
+  --header-height: 64px;
+  --container-max-width: 1400px;
+
+  /* ========================================================================
+     THEME (Light mode)
+     ======================================================================== */
+  color-scheme: light;
+}
+
+/* ============================================================================
+   DARK MODE (Optional - for future implementation)
+   ============================================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-text-inverse: #111827;
+    
+    --color-bg-primary: #111827;
+    --color-bg-secondary: #1f2937;
+    --color-bg-tertiary: #374151;
+    
+    --color-border-light: #374151;
+    --color-border-default: #4b5563;
+    --color-border-strong: #6b7280;
+    
+    color-scheme: dark;
+  }
+}

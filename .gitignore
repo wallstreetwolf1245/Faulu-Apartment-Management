@@ -1,0 +1,23 @@
+# --- Node / React (frontend) ---
+frontend/Faulu-apartment-management/node_modules/
+frontend/Faulu-apartment-management/dist/
+frontend/Faulu-apartment-management/.env
+frontend/Faulu-apartment-management/.env.local
+
+# --- .NET (backend) ---
+backend/FauluApartmentAPI/bin/
+backend/FauluApartmentAPI/obj/
+backend/FauluApartmentAPI/**/bin/
+backend/FauluApartmentAPI/**/obj/
+backend/FauluApartmentAPI/*.user
+backend/FauluApartmentAPI/**/*.user
+backend/FauluApartmentAPI/appsettings.Development.json
+backend/FauluApartmentAPI/**/appsettings.Development.json
+
+# --- Visual Studio ---
+backend/FauluApartmentAPI/.vs/
+**/.vs/
+
+# --- General ---
+.DS_Store
+*.log

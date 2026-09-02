@@ -1,0 +1,70 @@
+/* Glow Form Input Wrapper */
+.glow-form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.glow-form-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.glow-form-input-shell {
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+  background: var(--color-bg-primary);
+  box-shadow: none;
+}
+
+.glow-form-input-shell:focus-within {
+  border-color: var(--color-border-strong);
+  box-shadow: none;
+}
+
+.glow-form-input-content {
+  padding: var(--component-padding-base) var(--component-padding-md);
+  border-radius: 8px;
+  background: var(--color-bg-primary);
+}
+
+.glow-form-input-content input,
+.glow-form-input-content textarea,
+.glow-form-input-content select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  box-shadow: none;
+}
+
+.glow-form-input-content input::placeholder,
+.glow-form-input-content textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.glow-form-input-content input:focus,
+.glow-form-input-content textarea:focus,
+.glow-form-input-content select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.glow-form-error {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin-top: var(--space-1);
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .glow-form-input-content {
+    padding: var(--component-padding-base) var(--component-padding-md);
+  }
+}

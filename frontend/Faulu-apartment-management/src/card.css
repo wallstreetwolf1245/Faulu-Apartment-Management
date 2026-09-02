@@ -1,0 +1,336 @@
+/* ============================================================================
+   CARD COMPONENT SYSTEM
+   Surface styling for content containers with smooth transitions
+   ============================================================================ */
+
+.card {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text-primary);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent, rgba(255, 255, 255, 0.25));
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+}
+
+/* Elevated hover effect */
+.card.card-elevated-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card with padding */
+.card-padded {
+  padding: var(--component-padding-lg);
+}
+
+.card-padded-sm {
+  padding: var(--component-padding-base);
+}
+
+.card-padded-md {
+  padding: var(--component-padding-md);
+}
+
+.card-padded-lg {
+  padding: var(--component-padding-xl);
+}
+
+/* Card header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--component-padding-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  transition: all var(--transition-fast);
+}
+
+.card-header h2,
+.card-header h3 {
+  margin: 0;
+}
+
+.card-header-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-base);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.card-header-close:hover {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  transform: scale(1.05);
+}
+
+.card-header-close:active {
+  transform: scale(0.95);
+}
+
+/* Card body */
+.card-body {
+  padding: var(--component-padding-lg);
+  transition: all var(--transition-base);
+}
+
+.card-body-sm {
+  padding: var(--component-padding-base);
+}
+
+/* Card footer */
+.card-footer {
+  padding: var(--component-padding-lg);
+  border-top: 1px solid var(--color-border-light);
+  background-color: var(--color-bg-secondary);
+  transition: all var(--transition-base);
+}
+
+/* Card title */
+.card-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+/* Card description */
+.card-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--space-1) 0 0 0;
+}
+
+/* Card variants */
+
+/* Primary card - Highlighted, interactive */
+.card-primary {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.card-primary:hover {
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* Success card - Positive states */
+.card-success {
+  border-color: var(--color-success);
+  background-color: var(--color-success-bg);
+}
+
+.card-success:hover {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Warning card - Caution states */
+.card-warning {
+  border-color: var(--color-warning);
+  background-color: var(--color-warning-bg);
+}
+
+.card-warning:hover {
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+/* Error card - Error/alert states */
+.card-error {
+  border-color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+.card-error:hover {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Info card - Informational states */
+.card-info {
+  border-color: var(--color-info);
+  background-color: var(--color-info-bg);
+}
+
+.card-info:hover {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Minimal card - Subtle styling */
+.card-minimal {
+  border: 1px solid transparent;
+  background-color: var(--color-bg-secondary);
+}
+
+.card-minimal:hover {
+  border-color: var(--color-border-default);
+  background-color: var(--color-bg-primary);
+}
+
+/* Flat card - No border or shadow */
+.card-flat {
+  border: none;
+  box-shadow: none;
+  background-color: var(--color-bg-primary);
+}
+
+/* Elevated card - More prominent shadow */
+.card-elevated {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+/* Grid card - For card grids/layouts */
+.card-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.card-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card-grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Icon card - Cards with icons */
+.card-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: all var(--transition-base);
+}
+
+.card-icon-block {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-tertiary);
+  flex-shrink: 0;
+  font-size: 28px;
+  transition: all var(--transition-fast);
+}
+
+.card-icon:hover .card-icon-block {
+  transform: scale(1.1);
+}
+
+/* Metric card - For dashboard metrics */
+.card-metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--component-padding-lg);
+}
+
+.card-metric-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.card-metric-value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1;
+  transition: all var(--transition-base);
+}
+
+.card-metric:hover .card-metric-value {
+  color: var(--color-primary);
+}
+
+.card-metric-change {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.card-metric-change.positive {
+  color: var(--color-success);
+}
+
+.card-metric-change.negative {
+  color: var(--color-error);
+}
+
+/* Responsive card adjustments */
+@media (max-width: 768px) {
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: var(--component-padding-md);
+  }
+
+  .card-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .card-grid {
+    gap: var(--space-3);
+  }
+}

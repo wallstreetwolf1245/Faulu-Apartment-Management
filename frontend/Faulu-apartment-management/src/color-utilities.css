@@ -1,0 +1,216 @@
+/* ============================================================================
+   COLOR PALETTE UTILITY CLASSES
+   Quick-access classes for applying the Faulu Blue palette
+   ============================================================================ */
+
+/* TEXT COLOR UTILITIES */
+.text-blue-50 { color: var(--color-blue-50); }
+.text-blue-100 { color: var(--color-blue-100); }
+.text-blue-200 { color: var(--color-blue-200); }
+.text-blue-300 { color: var(--color-blue-300); }
+.text-blue-400 { color: var(--color-blue-400); }
+.text-blue-500 { color: var(--color-blue-500); }
+.text-blue-600 { color: var(--color-blue-600); }
+.text-blue-700 { color: var(--color-blue-700); }
+.text-blue-800 { color: var(--color-blue-800); }
+.text-blue-900 { color: var(--color-blue-900); }
+
+/* BACKGROUND COLOR UTILITIES */
+.bg-blue-50 { background-color: var(--color-blue-50); }
+.bg-blue-100 { background-color: var(--color-blue-100); }
+.bg-blue-200 { background-color: var(--color-blue-200); }
+.bg-blue-300 { background-color: var(--color-blue-300); }
+.bg-blue-400 { background-color: var(--color-blue-400); }
+.bg-blue-500 { background-color: var(--color-blue-500); }
+.bg-blue-600 { background-color: var(--color-blue-600); }
+.bg-blue-700 { background-color: var(--color-blue-700); }
+.bg-blue-800 { background-color: var(--color-blue-800); }
+.bg-blue-900 { background-color: var(--color-blue-900); }
+
+/* BORDER COLOR UTILITIES */
+.border-blue-50 { border-color: var(--color-blue-50); }
+.border-blue-100 { border-color: var(--color-blue-100); }
+.border-blue-200 { border-color: var(--color-blue-200); }
+.border-blue-300 { border-color: var(--color-blue-300); }
+.border-blue-400 { border-color: var(--color-blue-400); }
+.border-blue-500 { border-color: var(--color-blue-500); }
+.border-blue-600 { border-color: var(--color-blue-600); }
+.border-blue-700 { border-color: var(--color-blue-700); }
+.border-blue-800 { border-color: var(--color-blue-800); }
+.border-blue-900 { border-color: var(--color-blue-900); }
+
+/* COMBINATION UTILITIES */
+.bg-blue-50-text-blue-900 {
+  background-color: var(--color-blue-50);
+  color: var(--color-blue-900);
+}
+
+.bg-blue-100-text-blue-800 {
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-800);
+}
+
+.bg-blue-400-text-white {
+  background-color: var(--color-blue-400);
+  color: white;
+}
+
+.bg-blue-500-text-white {
+  background-color: var(--color-blue-500);
+  color: white;
+}
+
+/* GRADIENT UTILITIES */
+.gradient-blue-50-100 {
+  background: linear-gradient(135deg, var(--color-blue-50), var(--color-blue-100));
+}
+
+.gradient-blue-100-200 {
+  background: linear-gradient(135deg, var(--color-blue-100), var(--color-blue-200));
+}
+
+.gradient-blue-300-500 {
+  background: linear-gradient(135deg, var(--color-blue-300), var(--color-blue-500));
+}
+
+.gradient-blue-400-600 {
+  background: linear-gradient(135deg, var(--color-blue-400), var(--color-blue-600));
+}
+
+.gradient-blue-600-900 {
+  background: linear-gradient(135deg, var(--color-blue-600), var(--color-blue-900));
+}
+
+/* BUTTON UTILITIES WITH BLUE PALETTE */
+.btn-blue-primary {
+  background-color: var(--color-blue-400);
+  color: white;
+  border-color: var(--color-blue-400);
+}
+
+.btn-blue-primary:hover:not(:disabled) {
+  background-color: var(--color-blue-500);
+  border-color: var(--color-blue-500);
+}
+
+.btn-blue-secondary {
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-900);
+  border-color: var(--color-blue-100);
+}
+
+.btn-blue-secondary:hover:not(:disabled) {
+  background-color: var(--color-blue-200);
+  border-color: var(--color-blue-200);
+}
+
+.btn-blue-outline {
+  background-color: transparent;
+  color: var(--color-blue-400);
+  border-color: var(--color-blue-400);
+}
+
+.btn-blue-outline:hover:not(:disabled) {
+  background-color: var(--color-blue-50);
+  border-color: var(--color-blue-500);
+}
+
+/* CARD UTILITIES */
+.card-blue-highlight {
+  border-left: 4px solid var(--color-blue-400);
+}
+
+.card-blue-subtle {
+  background-color: var(--color-blue-50);
+  border-color: var(--color-blue-100);
+}
+
+/* INPUT FOCUS UTILITIES */
+.input-focus-blue:focus,
+.input-focus-blue:focus-visible {
+  border-color: var(--color-blue-400);
+  box-shadow: 0 0 0 3px var(--color-blue-50);
+}
+
+/* SHADOW UTILITIES WITH BLUE TINT */
+.shadow-blue-sm {
+  box-shadow: 0 1px 2px 0 rgba(131, 186, 219, 0.1);
+}
+
+.shadow-blue-md {
+  box-shadow: 0 4px 6px -1px rgba(131, 186, 219, 0.15);
+}
+
+.shadow-blue-lg {
+  box-shadow: 0 10px 15px -3px rgba(131, 186, 219, 0.2);
+}
+
+/* BADGE/TAG UTILITIES */
+.badge-blue {
+  background-color: var(--color-blue-50);
+  color: var(--color-blue-700);
+  border: 1px solid var(--color-blue-200);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-blue-solid {
+  background-color: var(--color-blue-400);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ANIMATION WITH BLUE ACCENT */
+@keyframes pulse-blue {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse-blue {
+  animation: pulse-blue 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes glow-blue {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(131, 186, 219, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(131, 186, 219, 0.8);
+  }
+}
+
+.glow-blue {
+  animation: glow-blue 2s ease-in-out infinite;
+}
+
+/* OPACITY/TRANSPARENCY UTILITIES */
+.blue-50-opacity { opacity: 0.5; }
+.blue-25-opacity { opacity: 0.25; }
+.blue-75-opacity { opacity: 0.75; }
+
+/* HOVER STATE UTILITIES */
+.hover-blue-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(131, 186, 219, 0.2);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-blue-darken:hover {
+  color: var(--color-blue-700);
+  transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* RESPONSIVE UTILITIES */
+@media (max-width: 768px) {
+  .md-hide-blue-600 { display: none; }
+  .md-bg-blue-50 { background-color: var(--color-blue-50); }
+}

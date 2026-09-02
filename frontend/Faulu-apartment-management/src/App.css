@@ -1,0 +1,472 @@
+/* APP WRAPPER */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-bg-secondary);
+}
+
+/* ========================================================================
+   SIDEBAR STYLES - Modern Design System
+   ======================================================================== */
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border-right: 1px solid var(--color-border-default);
+  overflow-y: auto;
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-fixed);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  transition: width var(--transition-fast);
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar.collapsed ~ .app-container {
+  margin-left: 72px;
+  width: calc(100% - 72px);
+}
+
+.sidebar-header {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-default);
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .sidebar-header {
+  text-align: center;
+}
+
+.sidebar-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sidebar.collapsed .sidebar-header-top {
+  justify-content: center;
+}
+
+.sidebar-header-text {
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.app-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--space-2) 0;
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+}
+
+.app-subtitle {
+  font-size: var(--font-size-xs);
+  opacity: 0.75;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.user-greeting {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  opacity: 0.7;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.sidebar.collapsed .sidebar-header-text,
+.sidebar.collapsed .user-greeting,
+.sidebar.collapsed .nav-section-title,
+.sidebar.collapsed .nav-text {
+  display: none;
+}
+
+.sidebar-nav {
+  padding: var(--space-4) 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.building-switcher { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border-default); }
+.switcher-title { font-size: 11px; text-transform:uppercase; color:var(--color-text-tertiary); margin:0 0 6px 0 }
+.switcher-list { display:flex; flex-direction:column; gap:6px }
+.switcher-item { display:flex; gap:8px; align-items:center; padding:6px; border-radius:8px; border:none; background:transparent; color:var(--color-text-secondary); text-align:left }
+.switcher-item .switcher-icon { width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; background: var(--color-warning); color: var(--color-text-inverse); border-radius:6px; font-weight:800 }
+.switcher-item.active { background: rgba(255,255,255,0.06); color:var(--color-text-primary) }
+
+
+.nav-section {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.nav-section-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  padding: var(--space-4) var(--space-4) var(--space-2) var(--space-4);
+  display: block;
+}
+
+.nav-item {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
+  text-align: left;
+  margin: 0 var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.nav-item:hover {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.nav-item.active {
+  background-color: var(--color-blue-700);
+  color: var(--color-text-inverse);
+  border-left-color: var(--color-blue-700);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sidebar.collapsed .nav-item,
+.sidebar.collapsed .logout-btn {
+  justify-content: center;
+  gap: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-icon {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-text {
+  flex: 1;
+}
+
+.sidebar-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border-default);
+  background: var(--color-bg-primary);
+  flex-shrink: 0;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-default);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.logout-btn:hover {
+  background-color: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.logout-btn:active {
+  transform: scale(0.98);
+}
+
+/* MAIN CONTENT AREA */
+.app-container {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left var(--transition-fast), width var(--transition-fast);
+}
+
+/* Content wrapper - constrains max width and centers content */
+.content-wrapper {
+  max-width: var(--container-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  flex: 1;
+}
+
+/* Main pages - extend content wrapper to full width with max-width */
+.dashboard-container,
+.properties-list-container,
+.tenants-list-container,
+.maintenance-list-container,
+.payments-list-container,
+.units-list-container {
+  max-width: var(--container-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-6);
+  background-color: var(--color-bg-primary);
+  min-height: 100vh;
+}
+
+/* Scrollbar styling for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: var(--radius-sm);
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* ========================================================================
+   RESPONSIVE DESIGN
+   ======================================================================== */
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+
+  .app-container {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+  }
+
+  .sidebar.collapsed {
+    width: 72px;
+  }
+
+  .sidebar.collapsed ~ .app-container {
+    margin-left: 72px;
+    width: calc(100% - 72px);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    max-height: 60px;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .sidebar-header {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: none;
+    border-right: 1px solid var(--color-border-default);
+    min-width: 180px;
+    white-space: nowrap;
+  }
+
+  .user-greeting {
+    display: none;
+  }
+
+  .app-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: 0;
+  }
+
+  .app-subtitle {
+    display: none;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    gap: 0;
+    padding: 0;
+    flex: 1;
+    overflow-x: auto;
+    margin-bottom: 0;
+  }
+
+  .sidebar-footer {
+    position: static;
+    display: none;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .nav-section {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-section-title {
+    display: none;
+  }
+
+  .nav-item {
+    padding: var(--space-3) var(--space-4);
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .nav-item:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+  }
+
+  .nav-item.active {
+    background-color: transparent;
+    border-bottom-color: var(--color-primary);
+    border-left: none;
+    color: var(--color-primary);
+  }
+
+  .app-container {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--color-border-default);
+  }
+
+  /* Collapse toggle is irrelevant on the mobile top-bar layout — the
+     sidebar is already compact and horizontal, so neutralize collapsed
+     state entirely here instead of leaving it half-applied. */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .sidebar.collapsed {
+    width: 100%;
+  }
+
+  .sidebar.collapsed ~ .app-container {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .sidebar.collapsed .sidebar-header-text,
+  .sidebar.collapsed .user-greeting,
+  .sidebar.collapsed .nav-text {
+    display: initial;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    max-height: 50px;
+  }
+
+  .sidebar-header {
+    min-width: 120px;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .app-title {
+    font-size: var(--font-size-base);
+  }
+
+  .nav-item {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+  }
+
+  .nav-icon {
+    font-size: 16px;
+  }
+
+  .app-container {
+    margin-top: 50px;
+  }
+}

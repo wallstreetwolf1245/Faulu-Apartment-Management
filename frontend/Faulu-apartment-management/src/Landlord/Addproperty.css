@@ -1,0 +1,414 @@
+/* ============================================================
+   ERP FORM SYSTEM
+   Base component fixed + extended for dense, multi-field,
+   payment-bearing forms (tenants, units, M-Pesa payments).
+
+   Assumes the existing design-token set (--color-*, --space-*,
+   --radius-*, --font-*, --shadow-*, --transition-*) is already
+   defined at :root / theme scope. No new raw colors introduced —
+   every value below resolves through a token, with a sane
+   fallback where the token may not exist yet.
+   ============================================================ */
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 500px;
+  padding: var(--component-padding-lg);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-default);
+}
+
+/* Dense variant for inline-edit rows / ERP tables where the
+   full padded card treatment is too heavy (e.g. quick-edit a
+   unit's rent amount without leaving the list view). */
+.form-container.compact {
+  gap: var(--space-2);
+  padding: var(--component-padding-md);
+  box-shadow: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form-group label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Required-field marker. Use <span class="required-mark">*</span>
+   inside the label rather than baking "*" into label text, so
+   screen readers and i18n don't have to parse it out of a string. */
+.required-mark {
+  color: var(--color-error);
+}
+
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* --- Base input --------------------------------------------- */
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: var(--component-padding-base) var(--component-padding-md);
+  border: 1px solid var(--color-border-input, rgba(255, 255, 255, 0.14));
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: none;
+  width: 100%;
+}
+
+.form-container.compact .form-group input,
+.form-container.compact .form-group textarea,
+.form-container.compact .form-group select {
+  padding: var(--space-1) var(--component-padding-base);
+  font-size: var(--font-size-sm);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* Remove the green focus glow on Add Property inputs. */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border: 2px solid #ffffff;
+  box-shadow: none;
+  padding: calc(var(--component-padding-base) - 1px) calc(var(--component-padding-md) - 1px);
+  background-color: var(--color-bg-primary);
+}
+
+.form-container.compact .form-group input:focus,
+.form-container.compact .form-group textarea:focus,
+.form-container.compact .form-group select:focus {
+  padding: calc(var(--space-1) - 1px) calc(var(--component-padding-base) - 1px);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled,
+.form-group input:read-only {
+  background-color: var(--color-bg-secondary, var(--color-border-default));
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+/* --- Validation states ---------------------------------------- */
+
+.input-error {
+  border-color: var(--color-error) !important;
+  background-color: var(--color-error-bg) !important;
+}
+
+.input-success {
+  border-color: var(--color-success) !important;
+  background-color: var(--color-success-bg) !important;
+}
+
+.error-text {
+  color: var(--color-error);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-1);
+}
+
+.file-name {
+  color: var(--color-success);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-1);
+}
+
+.success-message,
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--component-padding-base);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.success-message {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.error-message {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+/* --- Prefixed inputs: currency (KES) / phone (+254) ----------- */
+/* Wrap the input: <div class="input-prefix-group"><span
+   class="input-prefix">KES</span><input .../></div>
+   Needed all over the Payment Module — rent amounts, M-Pesa
+   phone numbers — and reads more like a real bank/ERP form than
+   a bare number field with a placeholder hint. */
+
+.input-prefix-group {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-prefix-group .input-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--component-padding-md);
+  border: 1px solid var(--color-border-input, rgba(255, 255, 255, 0.14));
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background-color: var(--color-bg-secondary, var(--color-border-default));
+  color: var(--color-text-secondary, var(--color-text-tertiary));
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.input-prefix-group input {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* --- Two-column layout for longer forms ------------------------ */
+/* Use on the container instead of .form-container for tenant/
+   unit forms with many fields. Fields that need full width
+   (address, notes) take .span-2. */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-3);
+  max-width: 700px;
+  padding: var(--component-padding-lg);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-default);
+}
+
+.form-grid .span-2 {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Buttons ---------------------------------------------------- */
+
+.form-buttons {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.submit-btn,
+.reset-btn {
+  padding: var(--component-padding-base) var(--component-padding-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex: 1;
+}
+
+.submit-btn {
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.submit-btn:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled,
+.submit-btn.loading {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+/* Spinner for async submits — e.g. waiting on the Daraja STK
+   Push callback, where the user needs to see "still working"
+   rather than a button that looks dead for several seconds. */
+.submit-btn.loading::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submit-btn.loading::after {
+    animation: none;
+  }
+}
+
+.reset-btn {
+  background-color: var(--color-neutral-400);
+  color: white;
+}
+
+.reset-btn:hover {
+  background-color: var(--color-neutral-500);
+  box-shadow: var(--shadow-md);
+}
+
+.reset-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+  .form-buttons {
+    flex-direction: column;
+  }
+}
+
+/* --- Multi-step form: segmented progress bar -------------------- */
+
+.step-progress {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto var(--space-4) auto;
+}
+
+.step-segment {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.segment-bar {
+  height: 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-border-default);
+  transition: background-color var(--transition-fast);
+  position: relative;
+}
+
+.step-segment.filled .segment-bar {
+  background-color: var(--color-primary);
+}
+
+/* Completed steps get their own color + a checkmark, distinct
+   from "filled" (current step's bar is filled but not done). */
+.step-segment.completed .segment-bar {
+  background-color: var(--color-success);
+}
+
+.step-segment.completed .segment-label::before {
+  content: "✓ ";
+}
+
+/* Labels visible for every step, not just the active one — on a
+   3-4 step onboarding flow (tenant details → lease → deposit →
+   review) people need to see what's ahead and what's done, not
+   just where they are. Active step still gets the visual weight. */
+.segment-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  line-height: 1.25;
+}
+
+.step-segment.active .segment-label {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.step-segment.completed .segment-label {
+  color: var(--color-success);
+}
+
+@media (max-width: 480px) {
+  /* On narrow phones, keep only the active label visible to avoid
+     wrapping/crowding — same fallback behavior as the original. */
+  .segment-label {
+    visibility: hidden;
+  }
+  .step-segment.active .segment-label {
+    visibility: visible;
+  }
+}
+
+/* --- Multi-step form: review step summary ----------------------- */
+
+.review-summary {
+  background-color: var(--color-bg-secondary, var(--color-border-default));
+  border-radius: var(--radius-md);
+  padding: var(--component-padding-base) var(--component-padding-md);
+  border: 1px solid var(--color-border-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.review-summary p {
+  margin: var(--space-1) 0;
+}
+
+.review-summary .review-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.review-summary .review-row:last-child {
+  border-bottom: none;
+}
+
+.review-summary .review-label {
+  color: var(--color-text-tertiary);
+}
