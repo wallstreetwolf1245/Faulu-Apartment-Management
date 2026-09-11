@@ -1,0 +1,18 @@
+# Dockerfile.vercel
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Copy csproj first for layer caching
+COPY backend/FauluApartmentAPI/FauluApartmentAPI.csproj ./FauluApartmentAPI/
+RUN dotnet restore ./FauluApartmentAPI/FauluApartmentAPI.csproj
+
+# Copy the rest of the backend source
+COPY backend/FauluApartmentAPI/. ./FauluApartmentAPI/
+RUN dotnet publish ./FauluApartmentAPI/FauluApartmentAPI.csproj -c Release --no-restore -o /app/publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled
+WORKDIR /app
+COPY --from=build /app/publish ./
+
+ENV PORT=8080
+ENTRYPOINT ["dotnet", "FauluApartmentAPI.dll"]

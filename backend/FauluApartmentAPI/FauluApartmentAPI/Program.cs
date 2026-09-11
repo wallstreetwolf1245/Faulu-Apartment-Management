@@ -13,11 +13,22 @@ using FauluApartmentAPI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Bind Kestrel to Vercel's PORT — required for container Functions.
+// Falls back to 8080 for local Docker testing.
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Add database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Server=(localdb)\\mssqllocaldb;Database=FauluApartmentDb;Trusted_Connection=true;";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null);
+    }));
 
 // Add Identity
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
@@ -118,9 +129,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// Only redirect to HTTPS in production — in development this strips
-// the Authorization header on redirect and causes 401s
-if (!app.Environment.IsDevelopment())
+// Skip HTTPS redirection when running as a Vercel container — Vercel
+// terminates TLS at its edge and forwards plain HTTP internally, so the
+// app itself never sees an HTTPS request and this would otherwise
+// redirect-loop or break every request in production. Vercel sets
+// the VERCEL env var automatically on container Functions.
+var isVercel = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VERCEL"));
+if (!app.Environment.IsDevelopment() && !isVercel)
 {
     app.UseHttpsRedirection();
 }
@@ -187,12 +202,5 @@ using (var scope = app.Services.CreateScope())
     else
         app.Logger.LogInformation("Daraja C2B URLs registered successfully");
 }
-
-// NOTE: The old "Register TransactionStatus URLs" startup block was removed here.
-// Daraja has no /mpesa/transactionstatus/v1/registerurl endpoint — it was always
-// returning 404.001.01 "Resource not found" on every startup. TransactionStatus
-// doesn't use a pre-registered URL at all; ResultURL/QueueTimeOutURL are passed
-// inline on each query in DarajaService.RequestTransactionStatusAsync, which is
-// unaffected by this removal.
 
 app.Run();
