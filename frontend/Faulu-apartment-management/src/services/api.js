@@ -2,7 +2,7 @@ import axios from 'axios';
 import authService from './authService';
 
 const API_BASE_URL = import.meta.env.PROD
-  ? import.meta.env.VITE_API_URL || 'https://localhost:5001'
+  ? import.meta.env.VITE_API_URL || 'https://localhost:5001/api'
   : '/api';
 
 const api = axios.create({
@@ -38,4 +38,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
