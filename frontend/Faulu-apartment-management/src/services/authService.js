@@ -4,13 +4,15 @@ const AUTH_SESSION_KEY = 'fauluAuthSession';
 const LEGACY_AUTH_TOKEN_KEY = 'authToken';
 const LEGACY_USER_KEY = 'user';
 
-// Same base URL logic as services/api.js. Duplicated intentionally rather
-// than imported — authService can't import the shared `api` instance
-// without creating a circular import (api.js already imports authService
-// to read the token for its request interceptor).
-const API_BASE_URL = import.meta.env.PROD
-  ? import.meta.env.VITE_API_URL || 'https://localhost:5001/api'
-  : '/api';
+// Build API base URL - ensure /api is always appended in production
+let API_BASE_URL;
+if (import.meta.env.PROD) {
+  const baseUrl = import.meta.env.VITE_API_URL || 'https://localhost:5001';
+  // Remove trailing slash if present, then append /api
+  API_BASE_URL = baseUrl.replace(/\/$/, '') + '/api';
+} else {
+  API_BASE_URL = '/api';
+}
 
 function getStoredSession() {
   try {
