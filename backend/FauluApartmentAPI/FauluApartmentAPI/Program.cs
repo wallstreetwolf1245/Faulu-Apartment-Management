@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Text;
 using FauluApartmentAPI.Data;
 using FauluApartmentAPI.Data.Entities;
@@ -19,15 +20,14 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add database context
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Server=(localdb)\\mssqllocaldb;Database=FauluApartmentDb;Trusted_Connection=true;";
+var connectionString = BuildConnectionString(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlOptions =>
+    options.UseNpgsql(connectionString, npgsqlOptions =>
     {
-        sqlOptions.EnableRetryOnFailure(
+        npgsqlOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(10),
-            errorNumbersToAdd: null);
+            errorCodesToAdd: null);
     }));
 
 // Add Identity
@@ -204,3 +204,27 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+static string BuildConnectionString(IConfiguration configuration)
+{
+    // Render (and most PaaS providers) inject a single DATABASE_URL
+    // in postgres://user:pass@host:port/db format. Npgsql needs
+    // key-value format, so parse it when present.
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (!string.IsNullOrEmpty(databaseUrl))
+    {
+        var uri = new Uri(databaseUrl);
+        var userInfo = uri.UserInfo.Split(':', 2);
+        var username = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+        var database = uri.AbsolutePath.TrimStart('/');
+        var port = uri.Port > 0 ? uri.Port : 5432;
+
+        return $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
+    }
+
+    // Local dev fallback: appsettings.Development.json's DefaultConnection,
+    // or the hardcoded default if that's missing too.
+    return configuration.GetConnectionString("DefaultConnection")
+        ?? "Host=localhost;Database=FauluApartmentDb;Username=postgres;Password=postgres;";
+}
