@@ -20,14 +20,14 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Server=(localdb)\\mssqllocaldb;Database=FauluApartmentDb;Trusted_Connection=true;";
+    ?? "Host=localhost;Port=5432;Database=FauluApartmentDb;Username=postgres;Password=postgres;";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlOptions =>
+    options.UseNpgsql(connectionString, pgOptions =>
     {
-        sqlOptions.EnableRetryOnFailure(
+        pgOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(10),
-            errorNumbersToAdd: null);
+            errorCodesToAdd: null);
     }));
 
 // Add Identity
