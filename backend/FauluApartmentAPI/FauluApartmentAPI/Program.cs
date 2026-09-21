@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Text;
 using FauluApartmentAPI.Data;
 using FauluApartmentAPI.Data.Entities;
@@ -11,6 +12,13 @@ using FauluApartmentAPI.Middleware;
 using FluentValidation;
 using FauluApartmentAPI.Validators;
 
+// Allow DateTime values with Kind=Unspecified to be written to
+// PostgreSQL timestamptz columns (treated as UTC). SQL Server never
+// enforced DateTime.Kind, so this restores that lenient behavior
+// after migrating providers. TODO: fix DateTime.Kind at the source
+// (DTOs/entities) and remove this switch when time allows.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Bind Kestrel to Vercel's PORT — required for container Functions.
@@ -19,16 +27,9 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add database context
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Port=5432;Database=FauluApartmentDb;Username=postgres;Password=postgres;";
+var connectionString = BuildConnectionString(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString, pgOptions =>
-    {
-        pgOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(10),
-            errorCodesToAdd: null);
-    }));
+    options.UseNpgsql(connectionString));
 
 // Add Identity
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
@@ -204,3 +205,27 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+static string BuildConnectionString(IConfiguration configuration)
+{
+    // Render (and most PaaS providers) inject a single DATABASE_URL
+    // in postgres://user:pass@host:port/db format. Npgsql needs
+    // key-value format, so parse it when present.
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (!string.IsNullOrEmpty(databaseUrl))
+    {
+        var uri = new Uri(databaseUrl);
+        var userInfo = uri.UserInfo.Split(':', 2);
+        var username = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+        var database = uri.AbsolutePath.TrimStart('/');
+        var port = uri.Port > 0 ? uri.Port : 5432;
+
+        return $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
+    }
+
+    // Local dev fallback: appsettings.Development.json's DefaultConnection,
+    // or the hardcoded default if that's missing too.
+    return configuration.GetConnectionString("DefaultConnection")
+        ?? "Host=localhost;Database=FauluApartmentDb;Username=postgres;Password=postgres;";
+}
