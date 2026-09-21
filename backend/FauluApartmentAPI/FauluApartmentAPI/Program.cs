@@ -88,8 +88,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         policy.WithOrigins(
-                "https://faulu-apartment-management-cy8u.vercel.app", // TODO: replace with real domain               
-                 "http://localhost:5173"                          // local dev (Vite)
+                "https://faulu-apartment-management-cy8u.vercel.app",
+                "http://localhost:5173"                          // local dev (Vite)
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -146,7 +146,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 // redirect-loop or break every request in production. Vercel sets
 // the VERCEL env var automatically on container Functions.
 var isVercel = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VERCEL"));
-if (!app.Environment.IsDevelopment() && !isVercel)
+var isRender = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("RENDER"));
+if (!app.Environment.IsDevelopment() && !isVercel && !isRender)
 {
     app.UseHttpsRedirection();
 }
