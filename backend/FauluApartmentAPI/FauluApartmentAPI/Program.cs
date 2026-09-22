@@ -81,15 +81,20 @@ builder.Services.AddOpenApi();
 // CORS: withCredentials on the frontend means we can't use AllowAnyOrigin().
 // Credentialed cross-origin requests require the server to echo back the
 // exact requesting origin (not "*") and explicitly allow credentials.
-// TODO: replace the placeholder with your real Vercel production domain
-// (and add any preview-deployment domains you want to allow too).
+//
+// Vercel generates a unique hashed preview subdomain for every branch/PR
+// deploy (e.g. faulu-apartment-management-cy8u-fpu32j6a7.vercel.app), so a
+// fixed WithOrigins() list breaks on every new preview URL. Instead, allow
+// localhost dev plus any subdomain under the project's Vercel domain.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(
-                "https://faulu-apartment-management-cy8u.vercel.app",
-                "http://localhost:5173"                          // local dev (Vite)
+        policy.SetIsOriginAllowed(origin =>
+                origin == "http://localhost:5173" ||
+                (Uri.TryCreate(origin, UriKind.Absolute, out var uri) &&
+                 uri.Host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase) &&
+                 uri.Host.StartsWith("faulu-apartment-management", StringComparison.OrdinalIgnoreCase))
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
