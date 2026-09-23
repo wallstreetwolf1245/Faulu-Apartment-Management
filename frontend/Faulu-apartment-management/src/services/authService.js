@@ -4,12 +4,17 @@ const AUTH_SESSION_KEY = 'fauluAuthSession';
 const LEGACY_AUTH_TOKEN_KEY = 'authToken';
 const LEGACY_USER_KEY = 'user';
 
-// Build API base URL - ensure /api is always appended in production
+// Build API base URL. In production, do not silently fall back to localhost.
+// Localhost is only allowed in local development.
 let API_BASE_URL;
 if (import.meta.env.PROD) {
-  const baseUrl = import.meta.env.VITE_API_URL || 'https://localhost:5001';
-  // Remove trailing slash if present, then append /api
-  API_BASE_URL = baseUrl.replace(/\/$/, '') + '/api';
+  const configuredBaseUrl = import.meta.env.VITE_API_URL;
+
+  if (!configuredBaseUrl) {
+    throw new Error('VITE_API_URL is not set. Configure the Render backend URL in the production environment.');
+  }
+
+  API_BASE_URL = configuredBaseUrl.replace(/\/$/, '') + '/api';
 } else {
   API_BASE_URL = '/api';
 }

@@ -2,7 +2,13 @@ import axios from 'axios';
 import authService from './authService';
 
 const API_BASE_URL = import.meta.env.PROD
-  ? (import.meta.env.VITE_API_URL || 'https://localhost:5001').replace(/\/$/, '') + '/api'
+  ? (() => {
+      const configuredBaseUrl = import.meta.env.VITE_API_URL;
+      if (!configuredBaseUrl) {
+        throw new Error('VITE_API_URL is not set. Configure the Render backend URL in the production environment.');
+      }
+      return configuredBaseUrl.replace(/\/$/, '') + '/api';
+    })()
   : '/api';
 
 const api = axios.create({
