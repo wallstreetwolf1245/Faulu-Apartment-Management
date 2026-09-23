@@ -83,6 +83,68 @@
   color: var(--color-text-primary);
 }
 
+/* Mobile-only close (X) button inside the drawer header. Hidden on desktop. */
+.mobile-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.mobile-close-btn:hover {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Mobile-only fixed top bar (hamburger + brand). Hidden on desktop. */
+.mobile-topbar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-default);
+  z-index: 998;
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+}
+
+.mobile-menu-btn:hover {
+  background-color: var(--color-bg-primary);
+}
+
+.mobile-topbar-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/* Mobile-only dimmed backdrop behind the open drawer */
+.sidebar-overlay {
+  display: none;
+}
+
 .app-title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
@@ -311,124 +373,36 @@
   }
 }
 
+/* ── Mobile: hamburger topbar + slide-in drawer ──────────────────────── */
 @media (max-width: 768px) {
-  .sidebar {
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .sidebar-overlay {
+    display: block;
     position: fixed;
-    width: 100%;
-    height: auto;
-    max-height: 60px;
-    flex-direction: row;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .sidebar,
+  .sidebar.collapsed {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: auto;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    background: var(--color-bg-secondary);
-    border-bottom: 1px solid var(--color-border-default);
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform var(--transition-fast);
+    z-index: 1000;
   }
 
-  .sidebar-header {
-    padding: var(--space-3) var(--space-4);
-    border-bottom: none;
-    border-right: 1px solid var(--color-border-default);
-    min-width: 180px;
-    white-space: nowrap;
-  }
-
-  .user-greeting {
-    display: none;
-  }
-
-  .app-title {
-    font-size: var(--font-size-lg);
-    margin-bottom: 0;
-  }
-
-  .app-subtitle {
-    display: none;
-  }
-
-  .sidebar-nav {
-    display: flex;
-    gap: 0;
-    padding: 0;
-    flex: 1;
-    overflow-x: auto;
-    margin-bottom: 0;
-  }
-
-  .sidebar-footer {
-    position: static;
-    display: none;
-    padding: 0;
-    border: none;
-    background: none;
-  }
-
-  .nav-section {
-    display: flex;
-    gap: 0;
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-
-  .nav-section-title {
-    display: none;
-  }
-
-  .nav-item {
-    padding: var(--space-3) var(--space-4);
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin: 0;
-  }
-
-  .nav-item:hover {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
-  }
-
-  .nav-item.active {
-    background-color: transparent;
-    border-bottom-color: var(--color-primary);
-    border-left: none;
-    color: var(--color-primary);
-  }
-
-  .app-container {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 60px;
-  }
-
-  .sidebar::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .sidebar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb {
-    background: var(--color-border-default);
-  }
-
-  /* Collapse toggle is irrelevant on the mobile top-bar layout — the
-     sidebar is already compact and horizontal, so neutralize collapsed
-     state entirely here instead of leaving it half-applied. */
-  .sidebar-toggle {
-    display: none;
-  }
-
-  .sidebar.collapsed {
-    width: 100%;
+  .sidebar.mobile-open {
+    transform: translateX(0);
   }
 
   .sidebar.collapsed ~ .app-container {
@@ -436,34 +410,77 @@
     width: 100%;
   }
 
+  /* The desktop collapse toggle is irrelevant on mobile; the close (X)
+     button takes its place in the drawer header. */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .mobile-close-btn {
+    display: flex;
+  }
+
+  .sidebar-header {
+    padding: var(--space-4);
+  }
+
   .sidebar.collapsed .sidebar-header-text,
   .sidebar.collapsed .user-greeting,
+  .sidebar.collapsed .nav-section-title,
   .sidebar.collapsed .nav-text {
     display: initial;
+  }
+
+  .sidebar.collapsed .sidebar-header-top {
+    justify-content: space-between;
+  }
+
+  /* Nav reverts to a normal vertical list, same as desktop — no more
+     horizontal scrolling strip. */
+  .sidebar-nav {
+    display: block;
+    padding: var(--space-4) 0;
+    overflow-x: visible;
+  }
+
+  .nav-section {
+    display: block;
+    flex-shrink: initial;
+  }
+
+  .nav-section-title {
+    display: block;
+  }
+
+  .nav-item {
+    display: flex;
+    white-space: normal;
+  }
+
+  .sidebar-footer {
+    display: block;
+    position: sticky;
+  }
+
+  .app-container {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 56px;
   }
 }
 
 @media (max-width: 480px) {
-  .sidebar {
-    max-height: 50px;
+  .mobile-topbar {
+    height: 50px;
+    padding: 0 var(--space-3);
   }
 
-  .sidebar-header {
-    min-width: 120px;
-    padding: var(--space-2) var(--space-3);
-  }
-
-  .app-title {
+  .mobile-topbar-title {
     font-size: var(--font-size-base);
   }
 
-  .nav-item {
-    padding: var(--space-2) var(--space-3);
-    font-size: var(--font-size-xs);
-  }
-
-  .nav-icon {
-    font-size: 16px;
+  .sidebar {
+    width: 260px;
   }
 
   .app-container {
