@@ -360,7 +360,7 @@
 
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: var(--space-5);
+    padding: var(--space-4);
   }
 
   .dashboard-header h1 {
@@ -371,23 +371,49 @@
     display: none;
   }
 
+  /* 2 columns on mobile to create a 2x2 layout for 4 summary cards */
   .summary-section {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
   }
 
+  /* Make each card more compact (half the approximate area) */
   .summary-card {
-    gap: var(--space-3);
-    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    min-height: 72px;
+  }
+
+  /* Smaller icon and less spacing */
+  .card-icon {
+    min-width: 36px;
+    margin-bottom: var(--space-1);
   }
 
   .card-icon svg {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
   }
 
+  .card-content {
+    min-width: 0; /* allow text to truncate/wrap correctly */
+  }
+
+  /* Smaller metric number to fit the compact card */
   .card-value {
-    font-size: var(--font-size-xl);
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+  }
+
+  .card-content h3 {
+    font-size: var(--font-size-xs);
+  }
+
+  .card-subtext {
+    font-size: var(--font-size-xs);
   }
 
   .stats-section,
@@ -408,25 +434,42 @@
 
 @media (max-width: 480px) {
   .dashboard-container {
-    padding: var(--space-4);
+    padding: var(--space-3);
   }
 
   .dashboard-header h1 {
     font-size: var(--font-size-xl);
   }
 
+  /* Keep 2 columns on small phones but use even smaller cards */
+  .summary-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
   .summary-card {
-    gap: var(--space-3);
-    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    min-height: 64px;
+  }
+
+  .card-icon {
+    min-width: 32px;
+    margin-bottom: var(--space-1);
   }
 
   .card-icon svg {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
   }
 
+  /* Even smaller metric text for tiny screens */
   .card-value {
-    font-size: var(--font-size-xl);
+    font-size: clamp(0.85rem, 5.5vw, 1rem);
   }
 
   .card-content h3 {
@@ -439,7 +482,7 @@
 
   .stats-card,
   .activity-card {
-    padding: var(--space-4);
+    padding: var(--space-3);
   }
 
   .activity-card h3,

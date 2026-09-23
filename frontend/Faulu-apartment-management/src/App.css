@@ -312,82 +312,63 @@
 }
 
 @media (max-width: 768px) {
+  /* Keep sidebar as a vertical, off-canvas panel on mobile.
+     Hidden by default (left: calc(-1 * var(--sidebar-width))) and
+     opened via the .mobile-show class that JS toggles. */
   .sidebar {
     position: fixed;
-    width: 100%;
-    height: auto;
-    max-height: 60px;
-    flex-direction: row;
+    width: var(--sidebar-width);
+    height: 100vh;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: auto;
+    left: calc(-1 * var(--sidebar-width));
     display: flex;
-    align-items: center;
-    padding: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
+    flex-direction: column;
+    padding-top: var(--header-height);
+    overflow-y: auto;
+    overflow-x: hidden;
     background: var(--color-bg-secondary);
-    border-bottom: 1px solid var(--color-border-default);
+    border-right: 1px solid var(--color-border-default);
+    z-index: var(--z-fixed);
+    transition: left var(--transition-fast);
+  }
+
+  /* When mobile menu is opened via JS, slide the sidebar in */
+  .sidebar.mobile-show {
+    left: 0;
   }
 
   .sidebar-header {
-    padding: var(--space-3) var(--space-4);
-    border-bottom: none;
-    border-right: 1px solid var(--color-border-default);
-    min-width: 180px;
-    white-space: nowrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
-  .user-greeting {
-    display: none;
-  }
-
-  .app-title {
-    font-size: var(--font-size-lg);
-    margin-bottom: 0;
-  }
-
-  .app-subtitle {
-    display: none;
-  }
-
-  .sidebar-nav {
-    display: flex;
-    gap: 0;
-    padding: 0;
-    flex: 1;
-    overflow-x: auto;
-    margin-bottom: 0;
-  }
-
-  .sidebar-footer {
-    position: static;
-    display: none;
-    padding: 0;
-    border: none;
-    background: none;
-  }
-
-  .nav-section {
-    display: flex;
-    gap: 0;
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-
+  /* Hide some verbose header elements on small screens */
+  .user-greeting,
+  .app-subtitle,
   .nav-section-title {
     display: none;
   }
 
+  .sidebar-nav {
+    padding: var(--space-3);
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .sidebar-footer {
+    position: sticky;
+    bottom: 0;
+    display: block;
+    padding: var(--space-3);
+    background: var(--color-bg-primary);
+  }
+
   .nav-item {
     padding: var(--space-3) var(--space-4);
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
+    border-left: 3px solid transparent;
+    border-bottom: none;
+    border-radius: var(--radius-md);
     white-space: nowrap;
-    flex-shrink: 0;
-    margin: 0;
   }
 
   .nav-item:hover {
@@ -396,50 +377,31 @@
   }
 
   .nav-item.active {
-    background-color: transparent;
-    border-bottom-color: var(--color-primary);
-    border-left: none;
-    color: var(--color-primary);
+    border-left-color: var(--color-blue-700);
+    background-color: var(--color-blue-700);
+    color: var(--color-text-inverse);
   }
 
+  /* Ensure main content fills screen while sidebar is off-canvas */
   .app-container {
     margin-left: 0;
     width: 100%;
-    margin-top: 60px;
   }
 
-  .sidebar::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .sidebar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb {
-    background: var(--color-border-default);
-  }
-
-  /* Collapse toggle is irrelevant on the mobile top-bar layout — the
-     sidebar is already compact and horizontal, so neutralize collapsed
-     state entirely here instead of leaving it half-applied. */
+  /* Keep collapse toggle visible for narrow tablets */
   .sidebar-toggle {
-    display: none;
+    display: inline-flex;
   }
 
+  /* Collapsed sidebar on small screens uses the collapsed width */
   .sidebar.collapsed {
-    width: 100%;
+    width: var(--sidebar-width-collapsed);
+    left: 0;
   }
 
   .sidebar.collapsed ~ .app-container {
     margin-left: 0;
     width: 100%;
-  }
-
-  .sidebar.collapsed .sidebar-header-text,
-  .sidebar.collapsed .user-greeting,
-  .sidebar.collapsed .nav-text {
-    display: initial;
   }
 }
 

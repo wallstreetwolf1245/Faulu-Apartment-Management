@@ -223,6 +223,73 @@
   color-scheme: light;
 }
 
+/* Mobile overrides - reduce spacing and font sizes for smaller screens */
+@media (max-width: 768px) {
+  :root {
+    /* Reduce base spacing scale by ~20% */
+    --space-1: 3px;
+    --space-2: 6px;
+    --space-3: 10px;
+    --space-4: 12px;
+    --space-5: 16px;
+    --space-6: 18px;
+    --space-7: 22px;
+    --space-8: 24px;
+
+    /* Slightly smaller component paddings */
+    --component-padding-xs: var(--space-1);
+    --component-padding-sm: var(--space-2);
+    --component-padding-base: var(--space-3);
+    --component-padding-md: var(--space-4);
+    --component-padding-lg: var(--space-5);
+
+    /* Typography reductions (smaller) */
+    --font-size-xs: 10px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 15px;
+    --font-size-xl: 16px;
+    --font-size-2xl: 18px;
+
+    /* Layout adjustments */
+    --sidebar-width: 220px;
+    --container-max-width: 1100px;
+    --header-height: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    /* Reduce base spacing more for small phones */
+    --space-1: 2px;
+    --space-2: 4px;
+    --space-3: 8px;
+    --space-4: 10px;
+    --space-5: 12px;
+    --space-6: 14px;
+
+    /* Component paddings */
+    --component-padding-xs: var(--space-1);
+    --component-padding-sm: var(--space-2);
+    --component-padding-base: var(--space-3);
+    --component-padding-md: var(--space-3);
+    --component-padding-lg: var(--space-4);
+
+    /* Typography reductions (smaller for tiny phones) */
+    --font-size-xs: 9px;
+    --font-size-sm: 11px;
+    --font-size-base: 13px;
+    --font-size-lg: 14px;
+    --font-size-xl: 15px;
+    --font-size-2xl: 16px;
+
+    /* Layout adjustments for smallest screens */
+    --sidebar-width: 200px;
+    --container-max-width: 720px;
+    --header-height: 48px;
+  }
+}
+
 /* ============================================================================
    DARK MODE (Optional - for future implementation)
    ============================================================================ */

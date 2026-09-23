@@ -412,3 +412,107 @@
 .review-summary .review-label {
   color: var(--color-text-tertiary);
 }
+
+/* Responsive adjustments for Add Property form */
+@media (max-width: 768px) {
+ .form-container,
+ .form-grid {
+   max-width: 100%;
+   padding: var(--component-padding-md);
+   box-shadow: none;
+   border-radius: var(--radius-md);
+ }
+
+ /* Make page header smaller on mobile (halved) */
+ .page_header {
+   /* enforce minimum for readability while still reducing */
+   font-size: clamp(10px, calc(14px / 2), 14px) !important;
+   margin-bottom: var(--space-3);
+ }
+
+ .form-container {
+   gap: var(--space-3);
+ }
+
+ /* Reduce label sizes and input text for compactness (halved) */
+ /* Labels */
+ .form-container .form-group label {
+   font-size: clamp(10px, calc(11px / 2), 11px) !important;
+ }
+
+ /* Inputs / textarea / select */
+ .form-container .form-group input,
+ .form-container .form-group textarea,
+ .form-container .form-group select {
+   padding: var(--component-padding-sm) var(--component-padding-base);
+   font-size: clamp(10px, calc(11px / 2), 11px) !important;
+ }
+
+ .form-group textarea {
+   min-height: 72px;
+ }
+
+ .form-buttons {
+   gap: var(--space-2);
+ }
+
+ /* Smaller buttons (halved) */
+ .submit-btn,
+ .reset-btn {
+   padding: calc(var(--component-padding-base) - 6px) var(--component-padding-lg);
+   font-size: clamp(10px, calc(11px / 2), 11px) !important;
+ }
+
+ /* Progress labels and segment sizes (halved) */
+ .segment-label {
+   font-size: clamp(10px, calc(10px / 2), 10px) !important;
+ }
+
+ .step-progress {
+   max-width: 100%;
+   padding: 0 var(--space-2);
+ }
+}
+
+@media (max-width: 480px) {
+ .form-container,
+ .form-grid {
+   padding: var(--component-padding-sm);
+ }
+
+ /* Further reduce header and labels on very small screens (halved) */
+ .page_header {
+   font-size: clamp(10px, calc(13px / 2), 13px) !important;
+ }
+
+ .form-container .form-group label {
+   font-size: clamp(10px, calc(10px / 2), 10px) !important;
+ }
+
+ .form-container .form-group input,
+ .form-container .form-group textarea,
+ .form-container .form-group select {
+   padding: var(--component-padding-xs) var(--component-padding-sm);
+   font-size: clamp(10px, calc(10px / 2), 10px) !important;
+ }
+
+ .form-group textarea {
+   min-height: 48px;
+ }
+
+ .form-buttons {
+   flex-direction: column;
+   gap: var(--space-2);
+ }
+
+ .submit-btn,
+ .reset-btn {
+   padding: var(--component-padding-base);
+   font-size: clamp(10px, calc(10px / 2), 10px) !important;
+   width: 100%;
+ }
+
+ .step-progress {
+   gap: var(--space-1);
+ }
+}
