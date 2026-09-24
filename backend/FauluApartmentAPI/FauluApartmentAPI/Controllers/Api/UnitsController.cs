@@ -12,6 +12,8 @@ namespace FauluApartmentAPI.Controllers;
 [Authorize]
 public class UnitsController : ControllerBase
 {
+    private const int MaxBulkUnits = 100;
+
     private readonly IUnitRepository _unitRepository;
     private readonly ILogger<UnitsController> _logger;
 
@@ -153,6 +155,103 @@ public class UnitsController : ControllerBase
             }
 
             return BadRequest(ApiResponse<UnitDto>.ErrorResponse("An error occurred while creating the unit"));
+        }
+    }
+
+    /// <summary>
+    /// Create many similar units at once. All units share the same template
+    /// (type, rent, bedrooms, etc.); only the unit numbers differ.
+    /// All-or-nothing: if any unit number is invalid or already exists, nothing is created.
+    /// </summary>
+    [HttpPost("bulk")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<UnitDto>>>> CreateUnitsBulk(
+        [FromBody] BulkCreateUnitsDto dto, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (dto.BuildingId <= 0)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse("A valid building is required."));
+
+            if (dto.MonthlyRent <= 0)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse("Monthly rent must be greater than zero."));
+
+            var unitNumbers = (dto.UnitNumbers ?? new List<string>())
+                .Select(n => n?.Trim() ?? string.Empty)
+                .Where(n => n.Length > 0)
+                .ToList();
+
+            if (unitNumbers.Count == 0)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse("Provide at least one unit number."));
+
+            if (unitNumbers.Count > MaxBulkUnits)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse(
+                    $"You can add at most {MaxBulkUnits} units at a time."));
+
+            // Duplicates inside the request itself
+            var repeated = unitNumbers
+                .GroupBy(n => n, StringComparer.OrdinalIgnoreCase)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            if (repeated.Count > 0)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse(
+                    $"Duplicate unit numbers in your list: {string.Join(", ", repeated)}."));
+
+            // Clashes with units already in this building
+            var existingUnits = await _unitRepository.GetUnitsByBuildingAsync(dto.BuildingId, cancellationToken);
+            var existingNumbers = new HashSet<string>(
+                existingUnits.Select(u => u.UnitNumber), StringComparer.OrdinalIgnoreCase);
+
+            var clashes = unitNumbers.Where(n => existingNumbers.Contains(n)).ToList();
+            if (clashes.Count > 0)
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse(
+                    $"These unit numbers already exist in this building: {string.Join(", ", clashes)}. Nothing was created."));
+
+            var now = DateTime.UtcNow;
+            var newUnits = unitNumbers.Select(number => new Unit
+            {
+                UnitNumber = number,
+                UnitType = dto.UnitType,
+                BuildingId = dto.BuildingId,
+                FloorNumber = dto.FloorNumber,
+                MonthlyRent = dto.MonthlyRent,
+                Deposit = dto.Deposit,
+                BedroomCount = dto.BedroomCount,
+                BathroomCount = dto.BathroomCount,
+                SquareFootage = dto.SquareFootage,
+                IsFurnished = dto.IsFurnished,
+                Amenities = dto.Amenities,
+                Notes = dto.Notes,
+                Status = "Vacant",
+                CreatedAt = now,
+            }).ToList();
+
+            foreach (var unit in newUnits)
+                await _unitRepository.AddAsync(unit, cancellationToken);
+
+            // One SaveChanges = one database transaction, so it's all or nothing
+            await _unitRepository.SaveChangesAsync(cancellationToken);
+
+            var created = newUnits.Select(u => MapToDto(u)).ToList();
+            return Ok(ApiResponse<IEnumerable<UnitDto>>.SuccessResponse(
+                created, $"{created.Count} units created successfully"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error bulk creating units: {Message} | Inner: {Inner}",
+                ex.Message, ex.InnerException?.Message);
+
+            if (ex.InnerException?.Message.Contains("duplicate key") == true ||
+                ex.InnerException?.Message.Contains("UNIQUE") == true)
+            {
+                return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse(
+                    "One or more unit numbers already exist in this building. Nothing was created."));
+            }
+
+            return BadRequest(ApiResponse<IEnumerable<UnitDto>>.ErrorResponse("An error occurred while creating the units"));
         }
     }
 

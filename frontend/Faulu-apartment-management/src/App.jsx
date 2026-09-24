@@ -670,6 +670,51 @@ function App() {
     }
   }
 
+  // Creates many similar units in one request.
+  // Unlike handleAddUnit, this THROWS on failure so the form can show the
+  // backend's message (e.g. which unit numbers already exist).
+  const handleAddBulkUnits = async (payload) => {
+    try {
+      const res = await api.post(
+        '/units/bulk',
+        payload
+      )
+
+      if (res.data?.success) {
+        const created = Array.isArray(res.data.data)
+          ? res.data.data
+          : []
+
+        setUnits(prev => [
+          ...prev,
+          ...created
+        ])
+
+        setAllUnits(prev => [
+          ...prev,
+          ...created
+        ])
+
+        setCurrentPage('unitsList')
+      } else {
+        throw new Error(
+          res.data?.message || 'Failed to create units'
+        )
+      }
+    } catch (err) {
+      console.error(
+        'Create bulk units error',
+        err
+      )
+
+      throw new Error(
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to create units. Please try again.'
+      )
+    }
+  }
+
   const handleDeleteUnit = async (unitId) => {
     try {
       const res = await api.delete(
@@ -1223,6 +1268,7 @@ function App() {
                   p.id === selectedPropertyId
               )}
               onUnitsAdded={handleAddUnit}
+              onBulkUnitsAdded={handleAddBulkUnits}
               onNavigate={handleNavigate}
             />
           )}
